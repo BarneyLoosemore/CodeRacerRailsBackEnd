@@ -1,3 +1,3 @@
 class SnippetSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :user_id, :content 
 end

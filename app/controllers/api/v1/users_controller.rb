@@ -9,7 +9,7 @@ class Api::V1::UsersController < ApplicationController
     def signin
         @user = User.find_by(username: params[:username])
         if @user && @user.authenticate(params[:password])
-            render json: { username: @user.username, token: issue_token({ id: @user.id })}
+            render json: { user_id: @user.id, username: @user.username, token: issue_token({ id: @user.id })}
         else
             render json: { error: 'Invalid username or password' }, status: 401
         end
@@ -18,7 +18,13 @@ class Api::V1::UsersController < ApplicationController
     def validate
         @user = get_current_user
         if @user 
-            render json: { username: @user.username, token: issue_token({ id: @user.id })}
+            render json: { 
+                user_id: @user.id, 
+                username: @user.username, 
+                pic_url: @user.pic_url, 
+                games: @user.games, 
+                token: issue_token({ id: @user.id })
+            }
         else
             render json: { error: 'Invalid username or password' }, status: 401
         end
@@ -28,8 +34,13 @@ class Api::V1::UsersController < ApplicationController
         @user = User.create(user_params)
         if @user.valid?
             @token = issue_token(user_id: @user.id)
-            render json: { username: @user.username, pic_url: @user.pic_url, token: issue_token({ id: @user.id })}
-            # render json: { user: UserSerializer.new(@user), jwt: @token }, status: :created
+            render json: { 
+                user_id: @user.id, 
+                username: @user.username, 
+                pic_url: @user.pic_url, 
+                games: @user.games, 
+                token: issue_token({ id: @user.id })
+            }
         else
             render json: { error: 'failed to create user' }, status: :not_acceptable
         end

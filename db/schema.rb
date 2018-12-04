@@ -15,8 +15,9 @@ ActiveRecord::Schema.define(version: 2018_12_03_101824) do
   create_table "games", force: :cascade do |t|
     t.integer "user_id"
     t.integer "snippet_id"
-    t.integer "score_placeholder"
-    t.integer "time_remaining_placeholder"
+    t.integer "time_taken"
+    t.integer "accuracy_percentage"
+    t.integer "characters_per_min"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
